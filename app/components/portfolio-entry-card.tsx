@@ -1,7 +1,7 @@
 'use client';
 
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 import type { PortfolioItem } from '../../lib/types';
 import { Badge } from './ui/badge';
 import { Panel } from './ui/panel';
@@ -29,64 +29,27 @@ interface PortfolioEntryCardProps {
 
 export function PortfolioEntryCard({ entry }: PortfolioEntryCardProps) {
   const [hovered, setHovered] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
-  const smoothX = useSpring(mouseX, { stiffness: 200, damping: 20 });
-  const smoothY = useSpring(mouseY, { stiffness: 200, damping: 20 });
-  const rotateX = useTransform(smoothY, [0, 1], [4, -4]);
-  const rotateY = useTransform(smoothX, [0, 1], [-4, 4]);
 
   const title = 'company' in entry ? entry.company : entry.title;
   const subtitle = 'company' in entry ? entry.role : `${entry.role} · ${entry.client}`;
   const projectTitle = 'title' in entry ? entry.title : null;
 
-  function handleMouseMove(e: React.MouseEvent) {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    mouseX.set((e.clientX - rect.left) / rect.width);
-    mouseY.set((e.clientY - rect.top) / rect.height);
-  }
-
-  function handleMouseLeave() {
-    mouseX.set(0.5);
-    mouseY.set(0.5);
-    setHovered(false);
-  }
-
   return (
-    <div className="relative perspective-[800px]" ref={cardRef}>
-      <motion.a
+    <div className="group/parent relative perspective-[800px]">
+      <a
         href={entry.url ?? '#'}
         target={entry.url ? '_blank' : undefined}
         rel={entry.url ? 'noreferrer' : undefined}
-        className="block"
-        style={{ rotateX, rotateY }}
-        onMouseMove={handleMouseMove}
+        className="block transition-all duration-150 hover:scale-[1.005]"
         onMouseEnter={() => setHovered(true)}
-        onMouseLeave={handleMouseLeave}
-        whileHover={{ scale: 1.005 }}
-        transition={{ type: 'spring', stiffness: 200, damping: 18 }}
+        onMouseLeave={() => setHovered(false)}
       >
         <Panel
           className={cn(
-            'relative overflow-hidden border-white/10 bg-white/[0.04] p-5 transition-colors duration-300',
+            'relative overflow-hidden border-white/10 bg-white/[0.04] p-5 transition-all duration-300',
             hovered && 'border-cyan-400/30 bg-white/[0.06]',
           )}
         >
-          {[
-            { side: 'top', color: 'via-cyan-500/6', delay: 0 },
-            { side: 'bottom', color: 'via-violet-500/5', delay: 0.08 },
-          ].map((glow) => (
-            <motion.div
-              key={glow.side}
-              className={`pointer-events-none absolute -inset-x-24 ${glow.side === 'top' ? '-top-24' : '-bottom-24'} h-48 w-[calc(100%+192px)] bg-gradient-to-r from-transparent ${glow.color} to-transparent blur-3xl`}
-              initial={false}
-              animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1 : 0.8 }}
-              transition={{ duration: 0.35, delay: glow.delay }}
-            />
-          ))}
-
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div className="space-y-3">
               <div className="flex items-center gap-2">
@@ -103,13 +66,15 @@ export function PortfolioEntryCard({ entry }: PortfolioEntryCardProps) {
               <div className="space-y-1">
                 <h3 className="flex items-center gap-2 text-base font-semibold text-zinc-50">
                   {title}
-                  <motion.span
-                    animate={{ x: hovered ? 4 : 0, opacity: hovered ? 1 : 0 }}
-                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                    className="text-zinc-500"
+                  <span
+                    className="text-zinc-500 transition-all duration-200"
+                    style={{
+                      transform: hovered ? 'translateX(4px)' : 'translateX(0)',
+                      opacity: hovered ? 1 : 0,
+                    }}
                   >
                     ↗
-                  </motion.span>
+                  </span>
                 </h3>
                 <p className="text-sm text-zinc-300">{subtitle}</p>
                 <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-zinc-500">
@@ -135,25 +100,18 @@ export function PortfolioEntryCard({ entry }: PortfolioEntryCardProps) {
           {entry.metrics && entry.metrics.length > 0 && (
             <div className="mt-4 grid gap-2">
               {entry.metrics.map((metric) => (
-                <motion.div
+                <div
                   key={metric}
-                  initial={{ opacity: 0, x: -8 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  className="flex items-start gap-2 text-sm text-zinc-300"
+                  className="flex animate-[fadeIn_0.4s_ease-out_both] items-start gap-2 text-sm text-zinc-300"
                 >
-                  <motion.span
-                    className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300/90"
-                    animate={hovered ? { scale: [1, 1.5, 1] } : {}}
-                    transition={{ duration: 0.4 }}
-                  />
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300/90" />
                   <span>{metric}</span>
-                </motion.div>
+                </div>
               ))}
             </div>
           )}
         </Panel>
-      </motion.a>
+      </a>
 
       <AnimatePresence>
         {hovered && entry.url && (

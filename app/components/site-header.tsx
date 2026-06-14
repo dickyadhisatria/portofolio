@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { Badge } from './ui/badge';
 import { Panel } from './ui/panel';
 
@@ -12,23 +12,26 @@ const navItems = [
 ] as const;
 
 export function SiteHeader() {
-  const { scrollY } = useScroll();
-  const bgColor = useTransform(scrollY, [0, 80], ['rgba(10,10,10,0)', 'rgba(10,10,10,0.85)']);
-  const blurStyle = useTransform(scrollY, [0, 80], ['blur(0px)', 'blur(12px)']);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const listener = () => setScrolled(window.scrollY > 80);
+    listener();
+    window.addEventListener('scroll', listener, { passive: true });
+    return () => window.removeEventListener('scroll', listener);
+  }, []);
 
   return (
-    <motion.div
-      className="sticky top-4 z-20"
-      style={{ backgroundColor: bgColor, backdropFilter: blurStyle }}
+    <div
+      className="sticky top-4 z-20 transition-all duration-300"
+      style={{
+        backgroundColor: scrolled ? 'rgba(10,10,10,0.85)' : 'rgba(10,10,10,0)',
+        backdropFilter: scrolled ? 'blur(12px)' : 'blur(0px)',
+      }}
     >
       <Panel className="px-4 py-3">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <motion.div
-            className="flex items-center gap-3"
-            initial={{ opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ type: 'spring', stiffness: 160, damping: 16 }}
-          >
+          <div className="flex animate-[fadeIn_0.5s_ease-out_both] items-center gap-3">
             <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-white/[0.05]">
               <span className="font-mono text-sm font-semibold tracking-[0.2em] text-cyan-200">DA</span>
             </div>
@@ -38,29 +41,25 @@ export function SiteHeader() {
                 Engineering scalable backends, spatial systems, and AI pipelines
               </p>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="flex flex-wrap items-center gap-2"
-            initial={{ opacity: 0, x: 12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ type: 'spring', stiffness: 160, damping: 16, delay: 0.05 }}
+          <nav
+            className="flex animate-[fadeIn_0.5s_ease-out_0.05s_both] flex-wrap items-center gap-2"
+            style={{ animationDelay: '0.05s' }}
           >
             {navItems.map((item) => (
-              <motion.a
+              <a
                 key={item.href}
                 href={item.href}
-                whileHover={{ scale: 1.04, y: -1 }}
-                whileTap={{ scale: 0.97 }}
-                className="relative rounded-full border border-white/10 px-3 py-1.5 text-[11px] uppercase tracking-[0.22em] text-zinc-300 transition-colors hover:border-white/20 hover:bg-white/[0.05] hover:text-white"
+                className="relative rounded-full border border-white/10 px-3 py-1.5 text-[11px] uppercase tracking-[0.22em] text-zinc-300 transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 hover:border-white/20 hover:bg-white/[0.05] hover:text-white"
               >
                 {item.label}
-              </motion.a>
+              </a>
             ))}
             <Badge tone="cyan">Open to work</Badge>
-          </motion.div>
+          </nav>
         </div>
       </Panel>
-    </motion.div>
+    </div>
   );
 }
