@@ -80,10 +80,11 @@ function CertificationPreview({ cert }: { cert: Certification }) {
       className="absolute right-full top-1/2 z-50 w-72 -translate-y-1/2 -mr-2 overflow-hidden rounded-xl border border-white/15 bg-zinc-900 shadow-2xl shadow-black/50 max-lg:right-1/2 max-lg:mr-0 max-lg:translate-x-1/2"
     >
       <div className="flex items-center justify-center bg-white p-4">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={cert.svgPath}
           alt={cert.name}
+          width={256}
+          height={160}
           className="h-auto max-h-40 w-full object-contain"
         />
       </div>
