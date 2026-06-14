@@ -5,7 +5,7 @@ const repo = 'portofolio';
 const nextConfig = {
   output: "export",
   basePath: isGithubActions ? `/${repo}` : '',
-  assetPrefix: isGithubActions ? `/${repo}/public/` : '',
+  assetPrefix: isGithubActions ? `/${repo}/` : '',
   images: {
     unoptimized: true,
   },
