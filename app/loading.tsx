@@ -1,7 +1,7 @@
 export default function Loading() {
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-8 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.25fr)_minmax(20rem,0.75fr)]">
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-[minmax(0,1.25fr)_minmax(20rem,0.75fr)]">
         <div className="space-y-4">
           <div className="h-6 w-52 animate-pulse rounded-full bg-white/10" />
           <div className="h-16 w-full max-w-3xl animate-pulse rounded-3xl bg-white/10" />
@@ -21,7 +21,7 @@ export default function Loading() {
         ))}
       </div>
 
-      <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_24rem]">
+      <div className="grid gap-8 grid-cols-1 xl:grid-cols-[minmax(0,1fr)_24rem]">
         <div className="space-y-4">
           <div className="h-8 w-64 animate-pulse rounded-full bg-white/10" />
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

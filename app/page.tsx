@@ -18,7 +18,7 @@ export default function HomePage() {
         <Hero />
         <MetricsRibbon />
 
-        <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_24rem]">
+        <div className="grid gap-8 grid-cols-1 xl:grid-cols-[minmax(0,1fr)_24rem]">
           <div className="space-y-8">
             <TechStackMatrix />
             <ExperienceSwitcher />

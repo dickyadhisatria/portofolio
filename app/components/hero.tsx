@@ -37,7 +37,7 @@ export function Hero() {
     <section
       id="overview"
       ref={sectionRef}
-      className="relative grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(20rem,0.75fr)]"
+      className="relative grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(20rem,0.75fr)]"
     >
       <motion.div style={{ y: bgY }} className="pointer-events-none absolute -inset-32 -z-10 opacity-40" aria-hidden />
 

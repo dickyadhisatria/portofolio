@@ -79,7 +79,7 @@ export function TelemetryCard() {
               <span className={`rounded-full border px-2 py-0.5 text-[9px] uppercase tracking-[0.22em] ${accentClasses[accentMap[log.type]]}`}>
                 {log.source}
               </span>
-              <span className="min-w-0 truncate text-zinc-300">{log.message}</span>
+              <span className="min-w-0 flex-1 truncate text-zinc-300">{log.message}</span>
             </motion.div>
           ))}
         </AnimatePresence>
