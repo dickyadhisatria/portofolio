@@ -2,12 +2,12 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef } from 'react';
-import Image from 'next/image';
 import { certifications, personalInfo } from '../../lib/data';
 import type { Certification } from '../../lib/types';
 import { Badge } from './ui/badge';
 import { Panel } from './ui/panel';
 import { SectionHeading } from './ui/section-heading';
+import { withBasePath } from '../../lib/base-path';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -43,12 +43,11 @@ function CertificationCard({
     >
       <div className="flex items-start gap-3">
         <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-white/5 p-1.5">
-          <Image
-            src={cert.svgPath}
+          <img
+            src={withBasePath(cert.svgPath)}
             alt={`${cert.issuer} logo`}
-            fill
-            sizes="40px"
-            className="object-contain opacity-60 transition-opacity group-hover:opacity-100"
+            className="h-full w-full object-contain opacity-60 transition-opacity group-hover:opacity-100"
+            loading="lazy"
           />
         </div>
         <div className="min-w-0 flex-1">
@@ -80,12 +79,13 @@ function CertificationPreview({ cert }: { cert: Certification }) {
       className="absolute right-full top-1/2 z-50 w-72 -translate-y-1/2 -mr-2 overflow-hidden rounded-xl border border-white/15 bg-zinc-900 shadow-2xl shadow-black/50 max-lg:right-1/2 max-lg:mr-0 max-lg:translate-x-1/2"
     >
       <div className="flex items-center justify-center bg-white p-4">
-        <Image
-          src={cert.svgPath}
+        <img
+          src={withBasePath(cert.svgPath)}
           alt={cert.name}
           width={256}
           height={160}
           className="h-auto max-h-40 w-full object-contain"
+          loading="lazy"
         />
       </div>
       <div className="border-t border-white/10 px-4 py-3">
