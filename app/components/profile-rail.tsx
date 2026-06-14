@@ -73,23 +73,22 @@ function CertificationCard({
 function CertificationPreview({ cert }: { cert: Certification }) {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.92, y: 8 }}
+      initial={{ opacity: 0, scale: 0.95, y: 6 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.92, y: 8 }}
-      transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-      className="absolute right-0 top-0 z-50 w-[260px] overflow-hidden rounded-2xl border border-white/15 bg-zinc-950/95 shadow-2xl shadow-cyan-500/5 backdrop-blur-xl"
+      exit={{ opacity: 0, scale: 0.95, y: 6 }}
+      transition={{ type: 'spring', stiffness: 250, damping: 22 }}
+      className="absolute right-full top-1/2 z-50 w-72 -translate-y-1/2 -mr-2 overflow-hidden rounded-xl border border-white/15 bg-zinc-900 shadow-2xl shadow-black/50 max-lg:right-1/2 max-lg:mr-0 max-lg:translate-x-1/2"
     >
-      <div className="relative aspect-[1.4/1] w-full bg-zinc-900/50 p-4">
-        <Image
+      <div className="flex items-center justify-center bg-white p-4">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={cert.svgPath}
           alt={cert.name}
-          fill
-          className="object-contain p-4"
-          sizes="260px"
+          className="h-auto max-h-40 w-full object-contain"
         />
       </div>
       <div className="border-t border-white/10 px-4 py-3">
-        <p className="text-xs font-medium text-zinc-200">{cert.name}</p>
+        <p className="truncate text-xs font-medium text-zinc-200">{cert.name}</p>
         <p className="mt-0.5 text-[10px] uppercase tracking-wider text-zinc-500">
           {cert.issuer} &middot; {cert.date}
         </p>

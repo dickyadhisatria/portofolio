@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 import { personalInfo } from '../../lib/data';
 import { Badge } from './ui/badge';
 import { Panel } from './ui/panel';
@@ -102,15 +103,38 @@ export function Hero() {
         </motion.div>
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.96, y: 6 }}
-        whileInView={{ opacity: 1, scale: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ type: 'spring', stiffness: 140, damping: 14, delay: 0.18 }}
-        whileHover={{ y: -4, scale: 1.01 }}
-      >
-        <TelemetryCard />
-      </motion.div>
+      <div className="flex flex-col gap-8">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96, y: 6 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ type: 'spring', stiffness: 140, damping: 14, delay: 0.12 }}
+          className="relative aspect-square w-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-2xl"
+        >
+          <Image
+            src="/images/profile-picture.webp"
+            alt={personalInfo.name}
+            fill
+            sizes="(max-width: 1024px) 100vw, 24rem"
+            className="object-cover"
+            priority
+          />
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/40 to-transparent p-5 pt-16">
+            <p className="text-sm font-medium text-zinc-50">{personalInfo.name}</p>
+            <p className="mt-0.5 text-xs text-zinc-400">{personalInfo.location}</p>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96, y: 6 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ type: 'spring', stiffness: 140, damping: 14, delay: 0.18 }}
+          whileHover={{ y: -4, scale: 1.01 }}
+        >
+          <TelemetryCard />
+        </motion.div>
+      </div>
     </section>
   );
 }
