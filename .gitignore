@@ -35,7 +35,7 @@ next-env.d.ts
 
 .agents
 .claude
-.github
+.github/prompts
 .playwright-mcp
 .remember
 graphify-out
