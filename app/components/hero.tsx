@@ -37,7 +37,7 @@ export function Hero() {
     <section
       id="overview"
       ref={sectionRef}
-      className="relative grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(20rem,0.75fr)]"
+      className="scroll-mt-24 relative grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(20rem,0.75fr)]"
     >
       <motion.div style={{ y: bgY }} className="pointer-events-none absolute -inset-32 -z-10 opacity-40" aria-hidden />
 
@@ -71,7 +71,7 @@ export function Hero() {
         <motion.div variants={itemVariants} className="flex flex-wrap gap-3">
           <ContactLink href={`mailto:${personalInfo.email}`}>{personalInfo.email}</ContactLink>
           <ContactLink href={`tel:${personalInfo.phone.replace(/\s+/g, '')}`}>{personalInfo.phone}</ContactLink>
-          <ContactLink>{personalInfo.location}</ContactLink>
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-sm font-medium text-zinc-300">{personalInfo.location}</span>
         </motion.div>
 
         <motion.div variants={itemVariants} className="flex flex-wrap gap-2">
@@ -139,13 +139,13 @@ export function Hero() {
   );
 }
 
-function ContactLink({ href, children }: { href?: string; children: React.ReactNode }) {
+function ContactLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <motion.a
       href={href}
       whileHover={{ scale: 1.03, y: -2 }}
       whileTap={{ scale: 0.97 }}
-      className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-sm font-medium text-zinc-300 transition-colors duration-200 hover:border-white/20 hover:bg-white/[0.06]"
+      className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-sm font-medium text-zinc-300 transition-colors duration-200 hover:border-white/20 hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       {children}
     </motion.a>

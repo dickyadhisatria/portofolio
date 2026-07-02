@@ -93,4 +93,36 @@
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     @apply bg-white/30;
   }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
 }
+
+/* Global focus-visible ring for interactive elements */
+@layer base {
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible {
+    @apply outline-none ring-2 ring-cyan-400/60 ring-offset-2 ring-offset-background rounded-sm;
+  }
+}
+
+/* Native CSS Scroll-Driven Reveal animations */
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    @keyframes scroll-reveal {
+      from {
+        opacity: 0.05;
+        transform: translateY(32px) scale(0.985);
+      }
+    }
+
+    .scroll-reveal {
+      animation: scroll-reveal auto linear both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 40%;
+    }
+  }
+}
+

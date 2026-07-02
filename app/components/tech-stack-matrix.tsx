@@ -14,14 +14,15 @@ const familyTone: Record<ItemFamily, 'cyan' | 'blue' | 'violet'> = {
   Tool: 'violet',
 };
 
+const grouped = familyOrder.map((family) => ({
+  family,
+  items: techStack.filter((item) => item.category === family),
+}));
+
 export function TechStackMatrix() {
-  const grouped = familyOrder.map((family) => ({
-    family,
-    items: techStack.filter((item) => item.category === family),
-  }));
 
   return (
-    <section id="stack" className="space-y-5">
+    <section id="stack" className="scroll-mt-24 space-y-5">
       <div className="space-y-2">
         <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-zinc-500">
           Technical stack matrix
@@ -48,7 +49,7 @@ export function TechStackMatrix() {
                   <div
                     key={item.name}
                     style={{ animationDelay: `${i * 0.07}s` } as React.CSSProperties}
-                    className="group animate-[fadeIn_0.4s_ease-out_both] rounded-2xl border border-white/10 bg-white/[0.03] p-3 transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-white/20 hover:shadow-[0_0_20px_-6px_rgba(6,182,212,0.06)] active:scale-[0.98]"
+                    className="group animate-[fadeIn_0.4s_ease-out_both] rounded-2xl border border-white/10 bg-white/[0.03] p-3 transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-white/20 hover:shadow-[0_0_20px_-6px_rgba(6,182,212,0.06)]"
                   >
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-sm font-medium text-zinc-50">{item.name}</p>

@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "npx serve@latest out",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +27,8 @@
     "@types/node": "^25.9.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.10",
     "postcss": "^8.5.15",
     "tailwindcss": "^4.0.0",
     "typescript": "^6.0.3"

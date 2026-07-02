@@ -8,6 +8,9 @@ import { Badge } from './ui/badge';
 import { Panel } from './ui/panel';
 import { SectionHeading } from './ui/section-heading';
 import { withBasePath } from '../../lib/base-path';
+import Image from 'next/image';
+
+const certificationsMap = Object.fromEntries(certifications.map((c) => [c.id, c])) as Record<string, Certification>;
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -43,9 +46,11 @@ function CertificationCard({
     >
       <div className="flex items-start gap-3">
         <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-white/5 p-1.5">
-          <img
+          <Image
             src={withBasePath(cert.svgPath)}
             alt={`${cert.issuer} logo`}
+            width={40}
+            height={40}
             className="h-full w-full object-contain opacity-60 transition-opacity group-hover:opacity-100"
             loading="lazy"
           />
@@ -79,7 +84,7 @@ function CertificationPreview({ cert }: { cert: Certification }) {
       className="absolute right-full top-1/2 z-50 w-72 -translate-y-1/2 -mr-2 overflow-hidden rounded-xl border border-white/15 bg-zinc-900 shadow-2xl shadow-black/50 max-lg:right-1/2 max-lg:mr-0 max-lg:translate-x-1/2"
     >
       <div className="flex items-center justify-center bg-white p-4">
-        <img
+        <Image
           src={withBasePath(cert.svgPath)}
           alt={cert.name}
           width={256}
@@ -128,11 +133,11 @@ function AnimatedSection({ children }: { children: React.ReactNode }) {
 
 export function ProfileRail() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const hoveredCert = hoveredId ? certifications.find((c) => c.id === hoveredId) ?? null : null;
+  const hoveredCert = hoveredId ? certificationsMap[hoveredId] ?? null : null;
   const railRef = useRef<HTMLDivElement>(null);
 
   return (
-    <aside ref={railRef} id="profile" className="space-y-6 xl:sticky xl:top-24 self-start">
+    <aside ref={railRef} id="profile" className="scroll-mt-24 space-y-6 xl:sticky xl:top-24 self-start">
       <SectionHeading
         eyebrow="Profile rail"
         title="Education, credentials, and contact"
@@ -154,7 +159,7 @@ export function ProfileRail() {
               <dd className="text-zinc-200">{personalInfo.education.period}</dd>
             </div>
             <div className="flex items-center justify-between gap-4">
-              <span className="text-zinc-500">Major / Minor</span>
+              <dt className="text-zinc-500">Major / Minor</dt>
               <dd className="text-zinc-200">
                 <span className="text-zinc-200">Electrical Engineering / Telecommunications</span>
               </dd>
@@ -214,9 +219,9 @@ export function ProfileRail() {
                   onLeave={() => setHoveredId(null)}
                 />
                 <AnimatePresence>
-                  {hoveredId === cert.id && hoveredCert && (
+                  {hoveredId === cert.id && hoveredCert ? (
                     <CertificationPreview cert={hoveredCert} />
-                  )}
+                  ) : null}
                 </AnimatePresence>
               </motion.div>
             ))}

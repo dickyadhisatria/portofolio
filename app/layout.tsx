@@ -33,6 +33,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="scrollbar-thin" suppressHydrationWarning>
       <body className={cn(geistSans.variable, geistMono.variable, 'bg-background font-sans text-foreground antialiased')} suppressHydrationWarning>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-cyan-500 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-zinc-950 focus:outline-none"
+        >
+          Skip to main content
+        </a>
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){var p=["bis_","bis_skin_","__processed_","__plugin__"];var s=Element.prototype.setAttribute;Element.prototype.setAttribute=function(n,v){for(var i=0;i<p.length;i++){if(n.indexOf(p[i])===0)return}return s.call(this,n,v)};document.querySelectorAll("*").forEach(function(e){e.getAttributeNames().forEach(function(n){for(var i=0;i<p.length;i++){if(n.indexOf(p[i])===0)e.removeAttribute(n)}})})})()`,

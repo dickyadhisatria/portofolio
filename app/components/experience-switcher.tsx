@@ -28,7 +28,7 @@ export function ExperienceSwitcher() {
   );
 
   return (
-    <section id="work" className="space-y-5">
+    <section id="work" className="scroll-mt-24 space-y-5">
       <SectionHeading
         eyebrow="Professional history & case studies"
         title="Switch between backend work and project delivery"
@@ -52,7 +52,7 @@ export function ExperienceSwitcher() {
               onClick={() => setActive(tab.id)}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
-              className="relative rounded-full px-4 py-2 text-[11px] font-medium uppercase tracking-[0.24em] text-zinc-400 transition-colors hover:text-zinc-100"
+              className="relative rounded-full px-4 py-2 text-[11px] font-medium uppercase tracking-[0.24em] text-zinc-400 transition-colors hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               {isActive ? (
                 <motion.span

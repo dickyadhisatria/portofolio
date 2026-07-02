@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useInView, useMotionValue, useTransform } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { metrics } from '../../lib/data';
 import { Panel } from './ui/panel';
 import { cn } from '../../lib/cn';
@@ -18,6 +18,8 @@ const accentMap: Record<string, 'cyan' | 'blue' | 'violet'> = {
   ml: 'violet',
 };
 
+const VALUE_STRIP_RE = /[+\-.]/g;
+
 function AnimatedMetric({
   value,
   suffix,
@@ -33,15 +35,18 @@ function AnimatedMetric({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
-  const raw = parseFloat(value.replace(/[+\-.]/g, '')) || 0;
+  const raw = parseFloat(value.replace(VALUE_STRIP_RE, '')) || 0;
   const count = useMotionValue(0);
-  const rounded = useTransform(count, (v) => Math.round(v));
-  const [display, setDisplay] = useState(0);
 
-  useEffect(() => {
-    const unsubscribe = rounded.on('change', setDisplay);
-    return unsubscribe;
-  }, [rounded]);
+  const prefix = value.startsWith('+') ? '+' : '';
+  const isDecimal = value.includes('.');
+  const suffixStr = suffix ?? '';
+
+  const formattedDisplay = useTransform(count, (v) => {
+    const rounded = Math.round(v);
+    const formatted = isDecimal ? rounded.toFixed(2) : String(rounded);
+    return `${prefix}${formatted}${suffixStr}`;
+  });
 
   useEffect(() => {
     if (inView) {
@@ -63,9 +68,6 @@ function AnimatedMetric({
     }
   }, [inView, raw, count]);
 
-  const prefix = value.startsWith('+') ? '+' : '';
-  const isDecimal = value.includes('.');
-
   return (
     <motion.div
       ref={ref}
@@ -76,16 +78,12 @@ function AnimatedMetric({
       whileHover={{ y: -2 }}
     >
       <Panel className="h-full rounded-none border-0 bg-zinc-950/90 p-4 transition-colors hover:bg-zinc-900/90">
-        <div className={cn('font-mono text-2xl font-semibold tracking-tight', accentClasses[accentMap[category]])}>
+        <div className={cn('font-mono text-2xl font-semibold tracking-tight tabular-nums', accentClasses[accentMap[category]])}>
           {inView ? (
-            <>
-              {prefix}
-              {isDecimal ? display.toFixed(2) : display}
-            </>
+            <motion.span>{formattedDisplay}</motion.span>
           ) : (
-            <>{prefix}0</>
+            <>{prefix}0{suffixStr}</>
           )}
-          <span className="text-base font-medium">{suffix ?? ''}</span>
         </div>
         <p className="mt-2 text-[10px] uppercase tracking-[0.24em] text-zinc-500">{label}</p>
       </Panel>

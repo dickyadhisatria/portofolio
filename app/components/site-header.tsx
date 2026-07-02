@@ -22,7 +22,7 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <div
+    <header
       className="sticky top-4 z-20 transition-all duration-300"
       style={{
         backgroundColor: scrolled ? 'rgba(10,10,10,0.85)' : 'rgba(10,10,10,0)',
@@ -60,6 +60,6 @@ export function SiteHeader() {
           </nav>
         </div>
       </Panel>
-    </div>
+    </header>
   );
 }
