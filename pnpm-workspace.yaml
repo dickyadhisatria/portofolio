@@ -11,3 +11,6 @@ minimumReleaseAgeExclude:
   - '@next/swc-win32-arm64-msvc@16.3.0-canary.44'
   - '@next/swc-win32-x64-msvc@16.3.0-canary.44'
   - next@16.3.0-canary.44
+  - '@next/eslint-plugin-next@16.2.10'
+  - eslint-config-next@16.2.10
+  - electron-to-chromium@1.5.384
